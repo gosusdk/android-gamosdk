@@ -8,7 +8,7 @@ GameSDK for Android
 INSTALLATION
 ------------
 
-**Download the official version: [click here](https://github.com/gosusdk/android_ginsdk/releases)**
+**Download the official version: [click here](https://github.com/gosusdk/android-gamosdk/releases)**
 
 #### 1. In your root-level (project-level) Gradle file `<project>/build.gradle`, add more plugins dependency to your `build.gradle` file:
 
