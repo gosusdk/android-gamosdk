@@ -1,7 +1,7 @@
 GameSDK for Android
 ========================
 
-* Authenticate
+* Authentication
 * Billing
 * Tracking
 
