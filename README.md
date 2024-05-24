@@ -83,6 +83,11 @@ app/
 ```
 **-Open the /app/manifest/AndroidManifest.xml file.**
 ```xml
+Merge XML manifest
+<application
+        tools:replace = "android:fullBackupContent"
+        android:allowBackup = "true"
+        android:fullBackupContent = "true"/>
 <!-- ============ PERMISSION ============== -->
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
