@@ -23,6 +23,8 @@ import com.game.nsdk.utils.GameException;
 import com.game.nsdk.utils.GameSDK;
 import com.game.nsdk.utils.GameUtils;
 
+import org.json.JSONObject;
+
 import java.util.Locale;
 
 
@@ -174,16 +176,23 @@ public class MainActivity extends AppCompatActivity {
 
     protected void callTrackingExample()
     {
-        GTrackingManger.getInstance().trackingStartTrial();
-        GTrackingManger.getInstance().trackingTutorialCompleted();
-        GTrackingManger.getInstance().doneNRU(
-            "server_id",
-            "role_id",
-            "Role Name"
-        );
-        /* custom event */
-        GTrackingManger.getInstance().trackingEvent("level_20");
-        GTrackingManger.getInstance().trackingEvent("level_20", "{\"customer_id\":\"1234\"}");
+        GTrackingManger.getInstance().createNewCharacter("server_test01", "role_test01", "role_name_test01");
+        GTrackingManger.getInstance().enterGame("user_idtest01", "role_test01", "role_name_test01", "server_test01");
+        GTrackingManger.getInstance().startTutorial("user_idtest01", "role_test01", "role_name_test01", "server_test01");
+        GTrackingManger.getInstance().completeTutorial("user_idtest01", "role_test01", "role_name_test01", "server_test01");
+        GTrackingManger.getInstance().checkout("order_test01", "pro_01", "1", "VND", "customer_test01");
+        GTrackingManger.getInstance().purchase("order_test01", "pro_01", "1", "VND", "customer_test01");
+        GTrackingManger.getInstance().levelUp("user_idtest01", "role_test01", 10);
+        GTrackingManger.getInstance().vipUp("user_idtest01", "role_test01", 3);
+        GTrackingManger.getInstance().useItem("user_idtest01", "role_test01", "item_test01", "itemid_test01", 1);
+        GTrackingManger.getInstance().trackActivityResult("user_idtest01", "role_test01", "item_test01", "activity_01", "Passed");
+        JSONObject object = new JSONObject();
+        try {
+            object.put("key_1", "1234");
+            object.put("key_2", "test");
+        } catch (Exception e) {
+        }
+        GTrackingManger.getInstance().trackCustomEvent("event_custom_toantest", object);
     }
 
     @Override

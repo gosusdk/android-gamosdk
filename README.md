@@ -17,13 +17,15 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://sdk-download.airbridge.io/maven" }
     }
 }
 dependencies {
     // ...
-    // google service (use firebase tracking)
-    classpath 'com.google.gms:google-services:4.3.15'
+    // google service (use firebase tracking & firebase analytic)
+    classpath 'com.android.tools.build:gradle:7.4.2'
+    classpath "com.google.protobuf:protobuf-gradle-plugin:0.9.4"
+    classpath 'com.google.gms:google-services:4.4.2'
+    classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.0'
 }
 ```	
 #### 2. In your module (app-level) Gradle file `<project>/<app-module>/build.gradle`, add more plugins dependency to your `build.gradle` file:
@@ -34,30 +36,44 @@ apply plugin: 'com.google.gms.google-services'
 
 dependencies {
     // ...
-    // GameSDK
-    implementation files('libs/gamesdk-v1.1.7.aar')
-    //for in app billing
-    implementation 'com.android.billingclient:billing:6.0.1'
-    //for appsflyer
-    implementation 'com.appsflyer:af-android-sdk:6.3.2'
-    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    //add library (include: GamoSDK & ItsSDK)
+    implementation fileTree(dir: "libs", include: ["*.aar"])
+
     //for showLogin facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    //for in app billing
+    implementation 'com.android.billingclient:billing:6.0.1'
+    implementation 'com.google.guava:guava:31.1-android'
+
     //for sigin GG SDK
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
     //for firebase
-    // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
-    implementation 'com.google.guava:guava:31.1-android'
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
     implementation 'com.google.firebase:firebase-messaging:23.2.1'
-    implementation 'com.google.firebase:firebase-analytics'
-    // GRPC Deps
+    implementation("com.google.firebase:firebase-analytics")
+ 
+    // GRPC Deps for GamoSDK & ItsSDK
     implementation 'io.grpc:grpc-okhttp:1.57.1'
     implementation 'io.grpc:grpc-protobuf-lite:1.57.1'
     implementation 'io.grpc:grpc-stub:1.57.1'
-    compileOnly 'org.apache.tomcat:annotations-api:6.0.53'
-    //airbridge
-    implementation "io.airbridge:sdk-android:2.22.0"
+    compileOnly 'org.apache.tomcat:annotations-api:6.0.53' // necessary for Java 9+
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation("com.google.android.play:review:2.0.1")
+    implementation 'androidx.core:core:1.10.1'
+    implementation "net.zetetic:sqlcipher-android:4.5.6@aar"
+    implementation "androidx.sqlite:sqlite:2.3.1"
+    implementation 'androidx.lifecycle:lifecycle-process:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-common:2.6.1'
+    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'com.rudderstack.android.sdk:core:1.25.1'
 }
 ```	
 **-Move config file (google-services.json) into the module (app-level) root directory of your app.**
@@ -69,9 +85,9 @@ app/
 **- Add gosu-service.json file to folder main/assets**
 ```json
 {
-  "client_id": "",
-  "airb_app_name": "sdkgosutest",
-  "airb_app_token": "d878da2af447440385fe9a4fe37b06a0"
+  "client_id": "client_id_value",
+  "its_app_write_key": "writekey_value",
+  "its_app_signing_key": "signing_key_value"
 }
 ```
 #### 4. Edit Your Resources and Manifest
@@ -124,23 +140,6 @@ Merge XML manifest
 <provider android:authorities="com.facebook.app.FacebookContentProvider116350609033094"
     android:name="com.facebook.FacebookContentProvider"
     android:exported="true"/>
-
-<!-- ======= AF Tracking ======= -->
-<receiver
-    android:name="com.appsflyer.MultipleInstallBroadcastReceiver"
-    android:exported="true" >
-    <intent-filter>
-        <action android:name="com.android.vending.INSTALL_REFERRER" />
-    </intent-filter>
-</receiver>
-
-<receiver
-    android:name="com.appsflyer.SingleInstallBroadcastReceiver"
-    android:exported="true" >
-    <intent-filter>
-        <action android:name="com.android.vending.INSTALL_REFERRER" />
-    </intent-filter>
-</receiver>
 ```
 USAGE GOSU LOGIN SDK
 --------------------
@@ -250,22 +249,10 @@ public void call_billing()
 USAGE GOSU TRACKING SDK
 --------------------
 
+The SDK supports tracking in-app events. To use it, you need to implement the `GrackingManager` module. For detailed information, refer to the code example below.
 ```java
-GTrackingManger.getInstance().trackingStartTrial();
-GTrackingManger.getInstance().trackingTutorialCompleted();
-GTrackingManger.getInstance().doneNRU(
-        "server_id",
-        "role_id",
-        "Role Name"
-);
-/* custom event */
-GTrackingManger.getInstance().trackingEvent("level_20");
-GTrackingManger.getInstance().trackingEvent("level_20", "{\"customer_id\":\"1234\"}");
-/* example: 
-jsonContent = {"event": "event_name", "params": {"key": "value", "key2": "value2"} }
-*/
-JSONObject jsonContent = new JSONObject();
-jsonRole.put("character", "CharacterName");
-jsonRole.put("server", "ServerID");        
-GTrackingManger.getInstance().trackingEvent("event_name", jsonContent);
+GTrackingManger.getInstance().completeRegistration("User_id");
+GTrackingManger.getInstance().completeTutorial();
 ```
+For detailed information on tracking events, please refer to the [Tracking Guide](./TRACKING_GUIDE.md).
+

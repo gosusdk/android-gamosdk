@@ -1,5 +1,5 @@
 {
-  "client_id": "",
-  "airb_app_name": "sdkgosutest",
-  "airb_app_token": "d878da2af447440385fe9a4fe37b06a0"
+  "client_id": "client_id_value",
+  "its_app_write_key": "writekey_value",
+  "its_app_signing_key": "signing_key_value"
 }
