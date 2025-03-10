@@ -17,6 +17,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://sdk-download.airbridge.io/maven" }
     }
 }
 dependencies {
@@ -58,6 +59,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.3.0'
     implementation 'com.google.firebase:firebase-messaging:23.2.1'
     implementation("com.google.firebase:firebase-analytics")
+    // biometric
+    implementation "androidx.biometric:biometric:1.1.0"
+    //airbridge
+    implementation "io.airbridge:sdk-android:2.22.0"
  
     // GRPC Deps for GamoSDK & ItsSDK
     implementation 'io.grpc:grpc-okhttp:1.57.1'
@@ -85,9 +90,11 @@ app/
 **- Add gosu-service.json file to folder main/assets**
 ```json
 {
-  "client_id": "client_id_value",
-  "its_app_write_key": "writekey_value",
-  "its_app_signing_key": "signing_key_value"
+  "client_id": "client_id",
+  "its_app_write_key": "",
+  "its_app_signing_key": "",
+  "airb_app_name": "",
+  "airb_app_token": ""
 }
 ```
 #### 4. Edit Your Resources and Manifest

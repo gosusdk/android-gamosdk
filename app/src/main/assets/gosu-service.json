@@ -1,5 +1,7 @@
 {
-  "client_id": "client_id_value",
-  "its_app_write_key": "writekey_value",
-  "its_app_signing_key": "signing_key_value"
+  "client_id": "client_id",
+  "its_app_write_key": "",
+  "its_app_signing_key": "",
+  "airb_app_name": "",
+  "airb_app_token": ""
 }
