@@ -99,18 +99,43 @@ app/
 ```
 #### 4. Edit Your Resources and Manifest
 **- Open the /app/res/values/strings.xml file.**
+
 ```xml
 <string name="facebook_app_id">1234</string>
 <string name="fb_login_protocol_scheme">fb1234</string>
 <string name="facebook_client_token">56789</string>
 ```
+##### 4.1 Add file config rule backup
+
+**-Add new  /app/src/main/res/xml/backup_rules_11.xml**
+```xml
+<full-backup-content>
+<exclude domain="sharedpref" path="its_prefs.xml"/>
+<exclude domain="sharedpref" path="rl_prefs.xml"/>
+</full-backup-content>
+```
+
+**-Add new  /app/src/main/res/xml/backup_rules_12.xml**
+```xml
+<data-extraction-rules>
+<cloud-backup>
+<exclude domain="sharedpref" path="its_prefs.xml"/>
+<exclude domain="sharedpref" path="rl_prefs.xml"/>
+</cloud-backup>
+</data-extraction-rules>
+```
+
 **-Open the /app/manifest/AndroidManifest.xml file.**
 ```xml
 Merge XML manifest
 <application
         tools:replace = "android:fullBackupContent"
         android:allowBackup = "true"
-        android:fullBackupContent = "true"/>
+        android:fullBackupContent = "true"
+        android:fullBackupContent="@xml/backup_rules_11"
+        android:dataExtractionRules="@xml/backup_rules_12"
+/>
+
 <!-- ============ PERMISSION ============== -->
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -197,7 +222,7 @@ USAGE GOSU LOGIN SDK
 * Login with Google: You send SHA-1 us [click here](https://developers.google.com/android/guides/client-auth)
 * Login with Facebook: You send hash key us [more here](https://developers.facebook.com/docs/facebook-login/android)
 
-2. GosuSDK Basic Functions
+1. GosuSDK Basic Functions
 ---
 ```java
 //login
