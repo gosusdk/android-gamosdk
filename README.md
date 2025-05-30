@@ -135,7 +135,6 @@ Merge XML manifest
 <application
         tools:replace = "android:fullBackupContent"
         android:allowBackup = "true"
-        android:fullBackupContent = "true"
         android:fullBackupContent="@xml/backup_rules_11"
         android:dataExtractionRules="@xml/backup_rules_12"
 />
