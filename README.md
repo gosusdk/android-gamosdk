@@ -88,13 +88,17 @@ app/
 ```
 
 **- Add gosu-service.json file to folder main/assets**
+This file information will be sent separately by email by the product operator.
 ```json
 {
-  "client_id": "client_id",
-  "its_app_write_key": "",
-  "its_app_signing_key": "",
-  "airb_app_name": "",
-  "airb_app_token": ""
+  "server_address": "sample_value",
+  "server_port": 0,
+  "negotiation_type": "sample_value",
+  "client_id": "sample_value",
+  "its_app_write_key": "sample_value",
+  "its_app_signing_key": "sample_value",
+  "airb_app_name": "sample_value",
+  "airb_app_token": "sample_value"
 }
 ```
 #### 4. Edit Your Resources and Manifest
