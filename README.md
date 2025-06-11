@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:21.3.0'
     implementation 'com.google.firebase:firebase-messaging:23.2.1'
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-crashlytics")
     // biometric
     implementation "androidx.biometric:biometric:1.1.0"
     //airbridge
