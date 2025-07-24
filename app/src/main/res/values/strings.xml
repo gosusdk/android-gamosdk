@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">SDKGOSU_New</string>
+    <string name="app_name" translatable="false">GAMO(2.0.0)</string>
 
     <string name="vaogame" translatable="false">Play Game</string>
     <string name="facebook_app_id" translatable="false">717886485019785</string>

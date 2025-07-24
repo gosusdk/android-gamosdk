@@ -1,9 +1,34 @@
-GameSDK for Android
+GameSDK for Android v2.0.0
 ========================
 
-* Authentication
-* Billing
-* Tracking
+**Latest Gaming SDK with Enhanced Features**
+
+* Authentication & User Verification
+* WebView TopUp System  
+* Billing & Payment
+* Event Tracking & Analytics
+* Government Compliance Support
+* Enhanced Security & Privacy
+
+## What's New in v2.0.0
+
+### 🚀 **New Features**
+- **WebView TopUp System**: Built-in top-up functionality with seamless payment experience
+- **Government Compliance**: Enhanced user verification to comply with national regulations
+- **Anonymous Key Management**: Automatic rate limiting and privacy protection
+- **Improved Error Messages**: User-friendly and developer-friendly error handling
+- **Advanced Security**: Enterprise-grade ProGuard security implementation
+
+### 🔧 **System Upgrades**
+- **Modern Build System**: Updated to Gradle 8.4, AGP 8.1.4, Java 17
+- **Latest Android**: Target SDK 35, Compile SDK 35
+- **Updated Dependencies**: Android Billing Client 8.0.0, Firebase latest versions
+- **ITS SDK 1.1.1**: Enhanced analytics and tracking capabilities
+
+### ⚠️ **Breaking Changes**
+- **Login Callback**: `onLoginSuccess` now uses JSONObject instead of separate parameters
+- **Java 17 Required**: Minimum development requirement updated
+- **Build Tools**: Requires Gradle 8.4+ and AGP 8.1.4+
 
 INSTALLATION
 ------------
@@ -23,7 +48,7 @@ allprojects {
 dependencies {
     // ...
     // google service (use firebase tracking & firebase analytic)
-    classpath 'com.android.tools.build:gradle:7.4.2'
+    classpath 'com.android.tools.build:gradle:8.1.4'  // Updated for v2.0.0
     classpath "com.google.protobuf:protobuf-gradle-plugin:0.9.4"
     classpath 'com.google.gms:google-services:4.4.2'
     classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.0'
@@ -34,6 +59,23 @@ dependencies {
 ```gradle
 // google service plugin (use firebase tracking)
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'  // Added for v2.0.0
+
+android {
+    compileSdk 35      // Updated for v2.0.0
+    
+    defaultConfig {
+        targetSdk 35   // Updated for v2.0.0
+        minSdkVersion 26
+        // ...
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17  // Updated for v2.0.0
+        targetCompatibility JavaVersion.VERSION_17  // Updated for v2.0.0
+    }
+    namespace 'your.package.name'  // Required for v2.0.0
+}
 
 dependencies {
     // ...
@@ -49,7 +91,7 @@ dependencies {
     //for showLogin facebook sdk
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     //for in app billing
-    implementation 'com.android.billingclient:billing:6.0.1'
+    implementation 'com.android.billingclient:billing:8.0.0'  // Updated for v2.0.0
     implementation 'com.google.guava:guava:31.1-android'
 
     //for sigin GG SDK
@@ -206,8 +248,18 @@ USAGE GOSU LOGIN SDK
     private void onLogin() {
         GameSDK.onLogin(new IGameOauthListener() {
             @Override
-            public void onLoginSuccess(String UserId, String UserName, String accesstoken) {
+            public void onLoginSuccess(JSONObject loginData) {  // Updated for v2.0.0
                 //invoked when login successfully
+                try {
+                    String userId = loginData.getString("user_id");
+                    String userName = loginData.getString("user_name");
+                    String accessToken = loginData.getString("auth_token");
+                    String checksum = loginData.getString("auth_checksum");
+                    String timestamp = loginData.getString("auth_timestamp");
+                    // Your code here
+                } catch (JSONException e) {
+                    // Handle JSON parsing error
+                }
             }
             @Override
             public void onLogout() {
@@ -231,9 +283,32 @@ USAGE GOSU LOGIN SDK
 ```java
 //login
 GameSDK.showLogin();
+
 //Logout
 GameSDK.logout();
 
+//WebView TopUp (New in v2.0.0)
+GameItemWebTopupObject topupObject = new GameItemWebTopupObject(
+    "product_id", 
+    "product_name", 
+    "amount", 
+    "currency",
+    "user_id"
+);
+GameSDK.showTopUp(topupObject, new IGameTopupListener() {
+    @Override
+    public void onTopupSuccess(String message) {
+        // Handle successful top-up
+    }
+    
+    @Override
+    public void onTopupError(String error) {
+        // Handle top-up error
+    }
+});
+
+//User Scope Validation (New in v2.0.0)
+GameSDK.validateScopeOfUser();
 ```
 3. Paying on Google Play with GosuSDK
 ---
@@ -285,10 +360,51 @@ public void call_billing()
 USAGE GOSU TRACKING SDK
 --------------------
 
-The SDK supports tracking in-app events. To use it, you need to implement the `GrackingManager` module. For detailed information, refer to the code example below.
+The SDK supports tracking in-app events with enhanced analytics capabilities (ITS SDK 1.1.1). To use it, you need to implement the `GTrackingManager` module. For detailed information, refer to the code example below.
+
 ```java
+// Basic tracking events
 GTrackingManger.getInstance().completeRegistration("User_id");
 GTrackingManger.getInstance().completeTutorial();
+
+// Gaming-specific events  
+GTrackingManger.getInstance().createNewCharacter("server_info", "char_id", "char_name");
+GTrackingManger.getInstance().enterGame("user_id", "char_id", "char_name", "server_info");
+GTrackingManger.getInstance().levelUp("char_id", "server_info", level);
+
+// Custom events
+JSONObject customData = new JSONObject();
+customData.put("key", "value");
+GTrackingManger.getInstance().trackCustomEvent("event_name", customData);
 ```
+
 For detailed information on tracking events, please refer to the [Tracking Guide](./TRACKING_GUIDE.md).
+
+## Migration from v1.x to v2.0.0
+
+### Required Updates
+1. **Update Java to 17**: Update your development environment
+2. **Update Build Tools**: Update Gradle to 8.4+ and AGP to 8.1.4+
+3. **Update Login Callback**: Change `onLoginSuccess` method signature to use JSONObject
+4. **Update Billing Client**: Update billing integration for 8.0.0 API changes
+5. **Add Namespace**: Add namespace declaration in your app's build.gradle
+
+### Optional Features
+- **WebView TopUp**: Integrate new top-up functionality if needed
+- **Scope Validation**: Use government compliance features if required
+- **Anonymous Key Management**: Automatically handled by the SDK
+
+## System Requirements
+
+- **Minimum SDK**: Android API 26+
+- **Target SDK**: Android API 35
+- **Java Version**: Java 17+ (required for development)
+- **Gradle**: 8.4+
+- **Android Gradle Plugin**: 8.1.4+
+
+## Support & Documentation
+
+- **Changelog**: [CHANGELOG.md](./CHANGELOG.md)
+- **Tracking Guide**: [TRACKING_GUIDE.md](./TRACKING_GUIDE.md)
+- **Download**: [Latest Release](https://github.com/gosusdk/android-gamosdk/releases)
 

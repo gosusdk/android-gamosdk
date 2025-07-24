@@ -16,13 +16,15 @@ import com.game.gstracking.GTrackingManger;
 import com.game.nsdk.inteface.IGameInitListener;
 import com.game.nsdk.inteface.IGameOauthListener;
 import com.game.nsdk.inteface.IGamePaymentListener;
+import com.game.nsdk.inteface.IGameTopupListener;
 import com.game.nsdk.inteface.OnSingleClickListener;
 import com.game.nsdk.object.GameItemIAPObject;
-import com.game.nsdk.utils.GameConstant;
+import com.game.nsdk.object.GameItemWebTopupObject;
 import com.game.nsdk.utils.GameException;
 import com.game.nsdk.utils.GameSDK;
 import com.game.nsdk.utils.GameUtils;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Locale;
@@ -34,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btnTTTK;
     private Button btnDSITEM;
     private Button btnTTITEM1;
+    private Button btnTopUpWebView;
     private Button btnDangXuat;
-
 
 
     @Override
@@ -55,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupSDK() {
         //
-        GameSDK.sdkInitialize(this,  new IGameInitListener() {
+        GameSDK.sdkInitialize(this, new IGameInitListener() {
             @Override
             public void onSuccess() {
 
@@ -74,11 +76,14 @@ public class MainActivity extends AppCompatActivity {
     private void onLogin() {
         GameSDK.onLogin(new IGameOauthListener() {
             @Override
-            public void onLoginSuccess(String UserId, String UserName, String accesstoken) {
-                Log.d("onLoginSuccess", "dang nhap thanh cong" + UserName);
+            public void onLoginSuccess(JSONObject loginData) {
+                String UserId = loginData.optString("user_id");
+                String UserName = loginData.optString("user_name");
+                Log.d("onLoginSuccess", "Login Success!: with: " + UserId + " - " + UserName);
                 btnDangNhap.setVisibility(View.GONE);
                 btnDSITEM.setVisibility(View.VISIBLE);
                 btnTTITEM1.setVisibility(View.VISIBLE);
+                btnTopUpWebView.setVisibility(View.VISIBLE);
                 btnDangXuat.setVisibility(View.VISIBLE);
 
                 callTrackingExample();
@@ -89,9 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 btnDangNhap.setVisibility(View.GONE);
                 btnDSITEM.setVisibility(View.GONE);
                 btnTTITEM1.setVisibility(View.GONE);
+                btnTopUpWebView.setVisibility(View.GONE);
                 btnDangXuat.setVisibility(View.GONE);
-
-
                 GameSDK.showLogin();
             }
 
@@ -116,12 +120,11 @@ public class MainActivity extends AppCompatActivity {
         btnDSITEM.setOnClickListener(new OnSingleClickListener() {
             @Override
             public void onSingleClick(View view) {
-                for(int i = 0; i < GameConstant.iap_product_ids.size(); i++){
-                    Log.d("TAG_ITEM", GameConstant.iap_product_ids.get(i)+"");
+                for (int i = 0; i < GameSDK.getIAPProductIds().size(); i++) {
+                    Log.d("TAG_ITEM", GameSDK.getIAPProductIds().get(i) + "");
                 }
             }
         });
-
 
 
         btnTTITEM1 = (Button) findViewById(R.id.btnTTITEM1);
@@ -136,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
                 String mProductName = "Mua gói 100KNB";
                 String currencyUnit = "USD";
                 String amount = "22000";
-                String serverID       = "S1";
-                String characterID    = "Character_ID";
-                String extraInfo    = "";
+                String serverID = "S1";
+                String characterID = "Character_ID";
+                String extraInfo = "";
 
                 GameItemIAPObject gosuItemIAPObject = new GameItemIAPObject(productID, mProductName, currencyUnit, amount, serverID, characterID, extraInfo);
 
@@ -157,7 +160,29 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+        //
+        btnTopUpWebView = (Button) findViewById(R.id.btnWebviewTopup);
+        btnTopUpWebView.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View var1) {
+                String productID = "com.cmc.dragonsaga.250";
+                String productName = "250 YB";
+                String currencyUnit = "USD";
+                String serverID = "200";
+                String characterID = "10000331";
+                String characterName = "SimbaNguyen";
+                String amount = "0.99";
+                String extraInfo = "";
 
+                GameItemWebTopupObject gosuItemIAPObject = new GameItemWebTopupObject(characterID, characterName, serverID, productID, productName, currencyUnit, amount, extraInfo);
+                GameSDK.showTopUp(gosuItemIAPObject, new IGameTopupListener() {
+                    @Override
+                    public void onTopupFinish() {
+                        Log.d("GameSDK", "onTopupFinish");
+                    }
+                });
+            }
+        });
         btnDangXuat = (Button) findViewById(R.id.btnDangXuat);
         btnDangXuat.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -169,13 +194,13 @@ public class MainActivity extends AppCompatActivity {
         btnDangNhap.setVisibility(View.VISIBLE);
         btnDSITEM.setVisibility(View.GONE);
         btnTTITEM1.setVisibility(View.GONE);
+        btnTopUpWebView.setVisibility(View.GONE);
         btnDangXuat.setVisibility(View.GONE);
 
 
     }
 
-    protected void callTrackingExample()
-    {
+    protected void callTrackingExample() {
         GTrackingManger.getInstance().createNewCharacter("server_test01", "role_test01", "role_name_test01");
         GTrackingManger.getInstance().enterGame("user_idtest01", "role_test01", "role_name_test01", "server_test01");
         GTrackingManger.getInstance().startTutorial("user_idtest01", "role_test01", "role_name_test01", "server_test01");
