@@ -4,7 +4,6 @@ GameSDK for Android v2.0.0
 **Latest Gaming SDK with Enhanced Features**
 
 * Authentication & User Verification
-* WebView TopUp System  
 * Billing & Payment
 * Event Tracking & Analytics
 * Government Compliance Support
@@ -13,7 +12,6 @@ GameSDK for Android v2.0.0
 ## What's New in v2.0.0
 
 ### 🚀 **New Features**
-- **WebView TopUp System**: Built-in top-up functionality with seamless payment experience
 - **Government Compliance**: Enhanced user verification to comply with national regulations
 - **Anonymous Key Management**: Automatic rate limiting and privacy protection
 - **Improved Error Messages**: User-friendly and developer-friendly error handling
@@ -287,26 +285,6 @@ GameSDK.showLogin();
 //Logout
 GameSDK.logout();
 
-//WebView TopUp (New in v2.0.0)
-GameItemWebTopupObject topupObject = new GameItemWebTopupObject(
-    "product_id", 
-    "product_name", 
-    "amount", 
-    "currency",
-    "user_id"
-);
-GameSDK.showTopUp(topupObject, new IGameTopupListener() {
-    @Override
-    public void onTopupSuccess(String message) {
-        // Handle successful top-up
-    }
-    
-    @Override
-    public void onTopupError(String error) {
-        // Handle top-up error
-    }
-});
-
 //User Scope Validation (New in v2.0.0)
 GameSDK.validateScopeOfUser();
 ```
@@ -388,11 +366,6 @@ For detailed information on tracking events, please refer to the [Tracking Guide
 3. **Update Login Callback**: Change `onLoginSuccess` method signature to use JSONObject
 4. **Update Billing Client**: Update billing integration for 8.0.0 API changes
 5. **Add Namespace**: Add namespace declaration in your app's build.gradle
-
-### Optional Features
-- **WebView TopUp**: Integrate new top-up functionality if needed
-- **Scope Validation**: Use government compliance features if required
-- **Anonymous Key Management**: Automatically handled by the SDK
 
 ## System Requirements
 

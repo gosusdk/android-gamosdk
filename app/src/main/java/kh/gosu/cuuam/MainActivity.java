@@ -16,10 +16,8 @@ import com.game.gstracking.GTrackingManger;
 import com.game.nsdk.inteface.IGameInitListener;
 import com.game.nsdk.inteface.IGameOauthListener;
 import com.game.nsdk.inteface.IGamePaymentListener;
-import com.game.nsdk.inteface.IGameTopupListener;
 import com.game.nsdk.inteface.OnSingleClickListener;
 import com.game.nsdk.object.GameItemIAPObject;
-import com.game.nsdk.object.GameItemWebTopupObject;
 import com.game.nsdk.utils.GameException;
 import com.game.nsdk.utils.GameSDK;
 import com.game.nsdk.utils.GameUtils;
@@ -36,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnTTTK;
     private Button btnDSITEM;
     private Button btnTTITEM1;
-    private Button btnTopUpWebView;
     private Button btnDangXuat;
 
 
@@ -83,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 btnDangNhap.setVisibility(View.GONE);
                 btnDSITEM.setVisibility(View.VISIBLE);
                 btnTTITEM1.setVisibility(View.VISIBLE);
-                btnTopUpWebView.setVisibility(View.VISIBLE);
                 btnDangXuat.setVisibility(View.VISIBLE);
 
                 callTrackingExample();
@@ -94,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
                 btnDangNhap.setVisibility(View.GONE);
                 btnDSITEM.setVisibility(View.GONE);
                 btnTTITEM1.setVisibility(View.GONE);
-                btnTopUpWebView.setVisibility(View.GONE);
                 btnDangXuat.setVisibility(View.GONE);
                 GameSDK.showLogin();
             }
@@ -161,28 +156,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //
-        btnTopUpWebView = (Button) findViewById(R.id.btnWebviewTopup);
-        btnTopUpWebView.setOnClickListener(new OnSingleClickListener() {
-            @Override
-            public void onSingleClick(View var1) {
-                String productID = "com.cmc.dragonsaga.250";
-                String productName = "250 YB";
-                String currencyUnit = "USD";
-                String serverID = "200";
-                String characterID = "10000331";
-                String characterName = "SimbaNguyen";
-                String amount = "0.99";
-                String extraInfo = "";
-
-                GameItemWebTopupObject gosuItemIAPObject = new GameItemWebTopupObject(characterID, characterName, serverID, productID, productName, currencyUnit, amount, extraInfo);
-                GameSDK.showTopUp(gosuItemIAPObject, new IGameTopupListener() {
-                    @Override
-                    public void onTopupFinish() {
-                        Log.d("GameSDK", "onTopupFinish");
-                    }
-                });
-            }
-        });
         btnDangXuat = (Button) findViewById(R.id.btnDangXuat);
         btnDangXuat.setOnClickListener(new OnSingleClickListener() {
             @Override
@@ -194,7 +167,6 @@ public class MainActivity extends AppCompatActivity {
         btnDangNhap.setVisibility(View.VISIBLE);
         btnDSITEM.setVisibility(View.GONE);
         btnTTITEM1.setVisibility(View.GONE);
-        btnTopUpWebView.setVisibility(View.GONE);
         btnDangXuat.setVisibility(View.GONE);
 
 

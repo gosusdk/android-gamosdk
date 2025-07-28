@@ -6,14 +6,6 @@ All notable changes to the Android Gaming SDK.
 
 ### 🚀 New Features
 
-#### WebView TopUp System
-- **New API**: `GameSDK.showTopUp(GameItemWebTopupObject, IGameTopupListener)`
-- **Classes Added**: 
-  - `GameItemWebTopupObject`: TopUp transaction data object
-  - `IGameTopupListener`: TopUp event callback interface
-  - `DialogTopupWebview`: WebView dialog for top-up interface
-- **Features**: Built-in validation, error handling, and comprehensive callback system
-
 #### User Scope Validation System
 - **Government Compliance**: Enhanced user authentication system to comply with national government regulations
 - **User Verification**: Improved user identity verification process according to government decree requirements
@@ -128,7 +120,6 @@ All notable changes to the Android Gaming SDK.
 5. **ProGuard**: Review custom rules for compatibility
 
 #### Optional Features
-- WebView TopUp system (backward compatible)
 - Scope validation system (backward compatible)
 - Anonymous key management (automatic)
 
