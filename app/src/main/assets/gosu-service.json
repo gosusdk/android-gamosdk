@@ -4,7 +4,5 @@
   "negotiation_type": "sample_value",
   "client_id": "sample_value",
   "its_app_write_key": "sample_value",
-  "its_app_signing_key": "sample_value",
-  "airb_app_name": "sample_value",
-  "airb_app_token": "sample_value"
+  "its_app_signing_key": "sample_value"
 }
