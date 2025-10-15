@@ -1,4 +1,4 @@
-GameSDK for Android v2.0.0
+GameSDK for Android v2.0.1
 ========================
 
 **Latest Gaming SDK with Enhanced Features**
@@ -8,25 +8,41 @@ GameSDK for Android v2.0.0
 * Event Tracking & Analytics
 * Government Compliance Support
 * Enhanced Security & Privacy
+* Android 15+ 16KB Page Size Compatibility
 
-## What's New in v2.0.0
+## What's New in v2.0.1
 
-### 🚀 **New Features**
+### 🗑️ **Removed**
+- **Airbridge Integration**: Completely removed Airbridge SDK dependency for simplified integration
+
+### 🔄 **Updated**
+- **SQLCipher Library**: Updated to latest version with 16KB page size compatibility
+- **Build Environment**: Updated to Gradle 8.7 and Android Gradle Plugin 8.5.1
+- **Google Policy Compliance**: Full support for new Google Play Store 16KB page size requirements
+
+### 🔧 **Enhanced**
+- **16KB Page Size Compatibility**: Added support for Android 15+ requirements
+  - Future-proof native library building for upcoming Android devices
+  - Enhanced CMake configuration with proper linker flags
+  - Optimized memory alignment and performance
+
+### 📋 **Configuration Updates**
+- **Gradle Properties**: Enhanced for 16KB page size compatibility
+- **Native Library Alignment**: Optimized for better performance and compatibility
+
+## Previous Features (v2.0.0)
+
+### 🚀 **Core Features**
 - **Government Compliance**: Enhanced user verification to comply with national regulations
 - **Anonymous Key Management**: Automatic rate limiting and privacy protection
 - **Improved Error Messages**: User-friendly and developer-friendly error handling
 - **Advanced Security**: Enterprise-grade ProGuard security implementation
 
-### 🔧 **System Upgrades**
-- **Modern Build System**: Updated to Gradle 8.4, AGP 8.1.4, Java 17
+### 🔧 **System Requirements**
+- **Modern Build System**: Gradle 8.7, AGP 8.5.1, Java 17
 - **Latest Android**: Target SDK 35, Compile SDK 35
 - **Updated Dependencies**: Android Billing Client 8.0.0, Firebase latest versions
 - **ITS SDK 1.1.1**: Enhanced analytics and tracking capabilities
-
-### ⚠️ **Breaking Changes**
-- **Login Callback**: `onLoginSuccess` now uses JSONObject instead of separate parameters
-- **Java 17 Required**: Minimum development requirement updated
-- **Build Tools**: Requires Gradle 8.4+ and AGP 8.1.4+
 
 INSTALLATION
 ------------
@@ -40,13 +56,14 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://sdk-download.airbridge.io/maven" }
+        // Airbridge repository removed in v2.0.1
+        // maven { url "https://sdk-download.airbridge.io/maven" }
     }
 }
 dependencies {
     // ...
     // google service (use firebase tracking & firebase analytic)
-    classpath 'com.android.tools.build:gradle:8.1.4'  // Updated for v2.0.0
+    classpath 'com.android.tools.build:gradle:8.5.1'  // Updated for v2.0.1
     classpath "com.google.protobuf:protobuf-gradle-plugin:0.9.4"
     classpath 'com.google.gms:google-services:4.4.2'
     classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.0'
@@ -75,6 +92,7 @@ android {
     namespace 'your.package.name'  // Required for v2.0.0
 }
 
+
 dependencies {
     // ...
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -102,8 +120,8 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     // biometric
     implementation "androidx.biometric:biometric:1.1.0"
-    //airbridge
-    implementation "io.airbridge:sdk-android:2.22.0"
+    // Airbridge removed in v2.0.1
+    // implementation "io.airbridge:sdk-android:2.22.0"
  
     // GRPC Deps for GamoSDK & ItsSDK
     implementation 'io.grpc:grpc-okhttp:1.57.1'
@@ -114,7 +132,7 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:2.2'
     implementation("com.google.android.play:review:2.0.1")
     implementation 'androidx.core:core:1.10.1'
-    implementation "net.zetetic:sqlcipher-android:4.5.6@aar"
+    implementation "net.zetetic:sqlcipher-android:4.10.0@aar"  // Updated for v2.0.1 (16KB page size compatibility)
     implementation "androidx.sqlite:sqlite:2.3.1"
     implementation 'androidx.lifecycle:lifecycle-process:2.6.1'
     implementation 'androidx.lifecycle:lifecycle-common:2.6.1'
@@ -137,10 +155,13 @@ This file information will be sent separately by email by the product operator.
   "negotiation_type": "sample_value",
   "client_id": "sample_value",
   "its_app_write_key": "sample_value",
-  "its_app_signing_key": "sample_value",
-  "airb_app_name": "sample_value",
-  "airb_app_token": "sample_value"
+  "its_app_signing_key": "sample_value"
 }
+```
+
+**Note**: Airbridge configuration fields (`airb_app_name`, `airb_app_token`) have been removed in v2.0.1.
+
+A template configuration file `gosu-service(temple).json` is now provided for reference.
 ```
 #### 4. Edit Your Resources and Manifest
 **- Open the /app/res/values/strings.xml file.**
@@ -358,22 +379,37 @@ GTrackingManger.getInstance().trackCustomEvent("event_name", customData);
 
 For detailed information on tracking events, please refer to the [Tracking Guide](./TRACKING_GUIDE.md).
 
-## Migration from v1.x to v2.0.0
+## Migration to v2.0.1
 
-### Required Updates
+### From v2.0.0 to v2.0.1
+1. **Remove Airbridge**: Remove all Airbridge SDK dependencies and related code
+2. **Update SQLCipher**: Update to version 4.10.0 for 16KB page size compatibility
+3. **Update Build Tools**: Update to Gradle 8.7 and AGP 8.5.1
+4. **Add 16KB Configuration**: Add gradle properties for 16KB page size compatibility
+5. **Update Configuration**: Remove Airbridge fields from `gosu-service.json`
+
+### From v1.x to v2.0.x
 1. **Update Java to 17**: Update your development environment
-2. **Update Build Tools**: Update Gradle to 8.4+ and AGP to 8.1.4+
+2. **Update Build Tools**: Update Gradle to 8.7+ and AGP to 8.5.1+
 3. **Update Login Callback**: Change `onLoginSuccess` method signature to use JSONObject
 4. **Update Billing Client**: Update billing integration for 8.0.0 API changes
 5. **Add Namespace**: Add namespace declaration in your app's build.gradle
+6. **16KB Page Size Support**: Add required gradle properties for Android 15+ compatibility
 
 ## System Requirements
 
 - **Minimum SDK**: Android API 26+
 - **Target SDK**: Android API 35
 - **Java Version**: Java 17+ (required for development)
-- **Gradle**: 8.4+
-- **Android Gradle Plugin**: 8.1.4+
+- **Gradle**: 8.7+ (updated for v2.0.1)
+- **Android Gradle Plugin**: 8.5.1+ (updated for v2.0.1)
+- **16KB Page Size**: Fully compatible with Android 15+ requirements
+
+## 16KB Page Size Compatibility
+
+Starting with v2.0.1, the SDK fully supports Android 15+ 16KB page size requirements as mandated by Google Play Store policies. This ensures compatibility with future Android devices and compliance with Google's requirements.
+
+**Reference**: [Android Developer Guide - Page Sizes](https://developer.android.com/guide/practices/page-sizes)
 
 ## Support & Documentation
 

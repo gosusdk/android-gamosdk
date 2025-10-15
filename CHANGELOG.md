@@ -2,6 +2,54 @@
 
 All notable changes to the Android Gaming SDK.
 
+## [2.0.1] - 2024-10-09
+
+### �️ Removed
+- **Airbridge Integration**: Removed Airbridge SDK dependency and related components
+  - Cleaned up Airbridge initialization code
+  - Removed Airbridge tracking methods and callbacks
+  - Updated dependencies to exclude Airbridge libraries
+
+### 🔄 Updated  
+- **SQLCipher Library**: Updated to latest version for better performance and security
+  - **Google Policy Compliance**: Updated to comply with new Google Play Store requirements for 16KB page size support
+  - **16KB Page Size Compatibility**: Updated to resolve Android 15+ 16KB page size alignment issues
+  - **Memory Alignment Fix**: Addresses native library compatibility with new Android memory management
+  - **Reference**: [Android Developer Guide - Page Sizes](https://developer.android.com/guide/practices/page-sizes)
+  - Enhanced database encryption capabilities
+  - Improved compatibility with newer Android versions
+  - Better memory management and performance optimizations
+
+- **Build Environment**: Updated build system components to support 16KB page size compatibility
+  - **Android Gradle Plugin**: 8.1.2 → 8.5.1 (includes 16KB page size support)
+  - **Gradle Wrapper**: 8.4 → 8.7
+  - **NDK Configuration**: Enhanced to support proper ELF alignment and LLD linker compatibility
+  - **CMake Toolchain**: Updated with required linker flags (`-Wl,-z,max-page-size=16384`) for 16KB boundary alignment
+  - **Build Tools**: Modernized toolchain to comply with Google Play Store 16KB page size requirements
+
+### 🔧 Enhanced
+- **16KB Page Size Compatibility**: Added support for Android 15+ 16KB page size requirements
+  - Updated CMake configuration with proper linker flags (`-Wl,-z,max-page-size=16384`)
+  - Enhanced NDK configuration for 16KB alignment compliance
+  - Added gradle properties for 16KB page size compatibility
+  - Future-proof native library building for upcoming Android devices
+
+### 📋 Configuration Updates
+- **Gradle Properties**: 
+  ```properties
+  android.bundle.enable16KPageSizeCompatible=true
+  android.enableUncompressedNativeLibsInBundle=false
+  ```
+- **CMake Configuration**: Enhanced linker flags for proper ELF alignment
+- **NDK Settings**: Updated for LLD linker support and 16KB compatibility
+
+### 🛠 Technical Improvements
+- **Native Library Alignment**: Optimized `libnative-lib.so` for 16KB boundary alignment
+- **Build Performance**: Improved build configuration for better compatibility
+- **Memory Optimization**: Enhanced resource management with updated SQLCipher
+
+---
+
 ## [2.0.0] - 2025-07-23
 
 ### 🚀 New Features
