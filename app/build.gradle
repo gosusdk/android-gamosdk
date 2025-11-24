@@ -85,4 +85,7 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-common:2.6.1'
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'com.rudderstack.android.sdk:core:1.25.1'
+
+    //for appsflyer
+    implementation 'com.appsflyer:af-android-sdk:6.17.0'
 }
