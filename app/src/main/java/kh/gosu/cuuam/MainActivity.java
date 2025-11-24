@@ -1,7 +1,6 @@
 package kh.gosu.cuuam;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +19,9 @@ import com.game.nsdk.inteface.OnSingleClickListener;
 import com.game.nsdk.object.GameItemIAPObject;
 import com.game.nsdk.utils.GameException;
 import com.game.nsdk.utils.GameSDK;
+import com.game.nsdk.utils.SDKOptions;
 import com.game.nsdk.utils.GameUtils;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -54,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void setupSDK() {
         //
+        SDKOptions options = new SDKOptions();
+        options.enableAppsflyer(false);
+        options.enableFirebase(true);
+        options.enableIts(false);
+        //
         GameSDK.sdkInitialize(this, new IGameInitListener() {
             @Override
             public void onSuccess() {
@@ -67,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             public void onError(GameException exception) {
                 exception.printStackTrace();
             }
-        });
+        },options);
     }
 
     private void onLogin() {

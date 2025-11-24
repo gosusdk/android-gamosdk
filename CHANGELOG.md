@@ -2,6 +2,57 @@
 
 All notable changes to the Android Gaming SDK.
 
+## [2.0.2] - 2024-11-24
+
+### 🚀 New Features
+
+#### AppsFlyer Integration
+- **AppsFlyer Tracking Module**: Added comprehensive AppsFlyer SDK integration for advanced attribution and analytics
+
+#### Enhanced SDK Initialization
+- **SDKOptions Configuration**: Introduced flexible SDK initialization options with modular enable/disable controls
+  - **Module Control**: Enable/disable specific tracking modules using `.enable()` methods
+    - `SDKOptions.builder().enableAppsFlyer(true/false)` - Control AppsFlyer integration
+    - `SDKOptions.builder().enableITS(true/false)` - Control ITS tracking module
+    - `SDKOptions.builder().enableFirebaseAnalytics(true/false)` - Control Firebase Analytics
+
+### 🔧 Enhanced
+- **Initialization Flow**: Improved SDK initialization with configurable options
+  - Better error handling and validation
+  - Asynchronous initialization support
+  - Backward compatibility with existing initialization methods
+
+### 📋 Configuration Updates
+- **AppsFlyer Dependencies**: New AppsFlyer SDK dependencies added to build configuration
+  ```gradle
+  dependencies {
+      // AppsFlyer SDK for attribution and analytics
+      implementation('com.appsflyer:af-android-sdk:6.17.0')
+      
+      // AppsFlyer Install Referrer (recommended for better attribution)
+      implementation 'com.android.installreferrer:installreferrer:2.2'
+  }
+  ```
+
+- **SDK Options**: New initialization parameters with granular module control
+  - **Module Selection**: Individual tracking module enable/disable options
+    ```java
+    SDKOptions options = new SDKOptions();
+        options.enableAppsflyer(true);
+        options.enableFirebase(true);
+        options.enableIts(true);
+    GameSDK.sdkInitialize(context,listener,options);
+    ```
+  - **Flexible Configuration**: Mix and match modules based on app requirements
+  - **Performance Optimization**: Only load enabled modules to reduce app overhead
+  - **Runtime Control**: Dynamic module enabling/disabling support
+
+### 🛠 Technical Improvements
+- **Analytics Integration**: Unified analytics interface supporting multiple providers
+- **Performance Optimization**: Enhanced tracking performance with minimal impact on app performance
+
+---
+
 ## [2.0.1] - 2024-10-09
 
 ### �️ Removed
