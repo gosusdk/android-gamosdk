@@ -1,6 +1,23 @@
 # Changelog
 
 All notable changes to the Android Gaming SDK.
+## [2.0.3] - 2025-12-12
+
+### 🐛 Bug Fixes
+
+#### Duplicate OpenGameLog API Call
+- **Fixed**: Duplicate calling of OpenGameLog API when GetProfile success
+  - **Impact**: Prevents redundant API calls and improves performance
+
+#### Error Message Localization
+- **Fixed**: Error messages now follow app language settings
+  - **Impact**: Improved user experience with proper localized error messages
+
+### 📦 Build Updates
+- **Version**: Updated build version configuration
+- **Release**: Version 2.0.3 release build
+
+---
 
 ## [2.0.2] - 2024-11-24
 
