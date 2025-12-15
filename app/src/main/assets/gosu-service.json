@@ -1,9 +1,8 @@
 {
-  "server_address": "123.30.106.114",
-  "server_port": 5001,
-  "negotiation_type": "plain",
-  "client_id": "1386.pnkfhgxtywirung",
-  "its_app_write_key": "",
-  "its_app_signing_key": ""
+  "server_address": "sample_value",
+  "server_port": 0,
+  "negotiation_type": "sample_value",
+  "client_id": "sample_value",
+  "its_app_write_key": "sample_value",
+  "its_app_signing_key": "sample_value"
 }
-
