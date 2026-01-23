@@ -1,5 +1,13 @@
-GameSDK for Android v2.0.3
+GameSDK for Android v2.0.4
 ========================
+## [2.0.4]
+
+### 🐛 Bug Fixes
+
+#### Login Tracking Event
+- **Fixed**: Missing log event tracking.
+  - **Impact**: Ensures proper tracking of login events in analytics
+---
 
 ## [2.0.3]
 
