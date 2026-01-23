@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         SDKOptions options = new SDKOptions();
         options.enableAppsflyer(false);
         options.enableFirebase(true);
-        options.enableIts(false);
+        options.enableIts(true);
         //
         GameSDK.sdkInitialize(this, new IGameInitListener() {
             @Override

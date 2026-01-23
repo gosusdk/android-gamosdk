@@ -1,6 +1,17 @@
 # Changelog
 
 All notable changes to the Android Gaming SDK.
+
+## [2.0.4] - 2026-01-23
+
+### 🐛 Bug Fixes
+
+#### Login Tracking Event
+- **Fixed**: Missing log event tracking.
+  - **Impact**: Ensures proper tracking of login events in analytics
+
+---
+
 ## [2.0.3] - 2025-12-12
 
 ### 🐛 Bug Fixes
